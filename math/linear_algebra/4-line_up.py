@@ -9,7 +9,8 @@ def add_arrays(arr1, arr2):
         arr2 (list): The second array.
 
     Returns:
-        list: A new array containing the sum of the corresponding elements from arr1 and arr2.
+        list: A new array containing the sum of the corresponding
+        elements from arr1 and arr2.
     """
     if len(arr1) != len(arr2):
         return None
