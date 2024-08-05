@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+""" ill use my scale
+"""
 
 def np_shape(matrix):
     """
