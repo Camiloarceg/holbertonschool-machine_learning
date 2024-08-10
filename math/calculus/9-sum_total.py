@@ -4,16 +4,9 @@
 
 
 def summation_i_squared(n):
-    """ Sumatory of x squared
-    Args:
-        n (int): number of iterations
-    Returns:
-        int: sumatory of x squared
+    """ summation of i squared
     """
     if not isinstance(n, int) or n < 1:
         return None
 
-    if n == 1:
-        return 1
-
-    return n**2 + summation_i_squared(n - 1)
+    return (n * (n + 1) * (2 * n + 1)) // 6
