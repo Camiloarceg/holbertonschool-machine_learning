@@ -11,6 +11,8 @@ def poly_integral(poly, C=0):
         return None
     if not isinstance(C, int):
         return None
+    if len(poly) == 1 and poly[0] != 0:
+        return [C]
 
     integral_poly = [C]
 
