@@ -5,6 +5,7 @@ from matplotlib import gridspec
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def all_in_one():
     """ all in one plots
     """
@@ -34,10 +35,9 @@ def all_in_one():
 
     bins = np.arange(0, 110, 10)
 
-    # Create a figure and set up a 3x2 grid layout with the last plot spanning two columns
     fig = plt.figure(figsize=(12, 8))
     gs = gridspec.GridSpec(3, 2, width_ratios=[1, 1])
-    
+
     # Subplot 1: Line Plot
     ax0 = plt.subplot(gs[0, 0])
     ax0.plot(np.arange(0, 11), y0, color='red')
@@ -67,7 +67,8 @@ def all_in_one():
     ax3 = plt.subplot(gs[1, 1])
     ax3.plot(x3, y31, 'r--', label="C-14")
     ax3.plot(x3, y32, 'g-', label="Ra-226")
-    ax3.set_title('Exponential Decay of Radioactive Elements', fontsize='x-small')
+    ax3.set_title('Exponential Decay of Radioactive Elements',
+                  fontsize='x-small')
     ax3.set_xlabel('Time (years)', fontsize='x-small')
     ax3.set_ylabel('Fraction Remaining', fontsize='x-small')
     ax3.set_xlim(0, 20000)
