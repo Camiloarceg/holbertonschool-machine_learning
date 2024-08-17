@@ -80,23 +80,41 @@ class Node:
 
         return count
 
-    def get_leaves_below(self):
+    def left_child_add_prefix(self, text):
+        """ adds a prefix to the left """
+        lines = text.split("\n")
+        new_text = "    +--" + lines[0] + "\n"
+        for x in lines[1:]:
+            new_text += ("    |  " + x) + "\n"
+        return new_text
+
+    def right_child_add_prefix(self, text):
+        """ adds a prefix to the right """
+        lines = text.split("\n")
+        new_text = "    +--" + lines[0] + "\n"
+        for x in lines[1:]:
+            new_text += ("       " + x) + "\n"
+        return new_text
+
+    def __str__(self):
         """
-        Returns the list of all leaf nodes below (and including) this node.
+        Returns a string representation of the node and its
+         children in the tree.
 
         Returns:
-            list: A list of leaf nodes in the tree.
+            str: The string representation of the node and its subtree.
         """
-        if self.is_leaf:
-            return [self]
+        result = f"[X{self.feature} <= {self.threshold}]"
 
-        leaves = []
         if self.left_child:
-            leaves.extend(self.left_child.get_leaves_below())
-        if self.right_child:
-            leaves.extend(self.right_child.get_leaves_below())
+            left_str = self.left_child_add_prefix(self.left_child.__str__())
+            result += "\n" + left_str
 
-        return leaves
+        if self.right_child:
+            right_str = self.right_child_add_prefix(self.right_child.__str__())
+            result += "\n" + right_str
+
+        return result
 
 
 class Leaf(Node):
@@ -131,8 +149,8 @@ class Leaf(Node):
         """
         return 1
 
-    def get_leaves_below(self):
-        return [self]
+    def __str__(self):
+        return (f"-> leaf [value={self.value}]")
 
 
 class Decision_Tree:
@@ -181,5 +199,5 @@ class Decision_Tree:
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
-    def get_leaves(self):
-        return self.root.get_leaves_below()
+    def __str__(self):
+        return self.root.__str__()
