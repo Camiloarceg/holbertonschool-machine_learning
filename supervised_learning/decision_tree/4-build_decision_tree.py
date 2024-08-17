@@ -38,6 +38,8 @@ class Node:
         self.is_root = is_root
         self.sub_population = None
         self.depth = depth
+        self.lower = {}
+        self.upper = {}
 
     def max_depth_below(self):
         """
