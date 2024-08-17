@@ -164,6 +164,8 @@ class Leaf(Node):
         return (f"-> leaf [value={self.value}]")
 
     def get_leaves_below(self):
+        """ return self as a list element
+        """
         return [self]
 
 
@@ -217,4 +219,6 @@ class Decision_Tree:
         return self.root.__str__()
 
     def get_leaves(self):
+        """ return self as a list element
+        """
         return self.root.get_leaves_below()
