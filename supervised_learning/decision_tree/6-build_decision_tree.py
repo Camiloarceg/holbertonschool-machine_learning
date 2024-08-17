@@ -285,19 +285,23 @@ class Decision_Tree:
         """ update bounds """
         self.root.update_bounds_below()
 
+    def pred(self, x):
+        """
+        Start the prediction process from the root node for a given input x.
+        """
+        return self.root.pred(x)
+
     def update_predict(self):
         """
-        Update the prediction function for the decision tree.
+        Updates the tree's prediction function to use
+        vectorized operations for faster predictions.
+        It calculates the indicator functions for each
+        leaf and uses them to make predictions.
         """
         self.update_bounds()
-
         leaves = self.get_leaves()
 
         for leaf in leaves:
             leaf.update_indicator()
-
-        self.predict = lambda A: np.array([
-            leaf.value
-            for leaf in leaves
-            if leaf.indicator(A).any()
-        ] * len(A))
+        self.predict = lambda A: np.sum(
+            [leaf.indicator(A) * leaf.value for leaf in leaves], axis=0)
