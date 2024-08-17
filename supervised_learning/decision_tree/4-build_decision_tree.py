@@ -38,8 +38,6 @@ class Node:
         self.is_root = is_root
         self.sub_population = None
         self.depth = depth
-        self.lower = {}
-        self.upper = {}
 
     def max_depth_below(self):
         """
@@ -112,59 +110,39 @@ class Node:
         return result
 
     def get_leaves_below(self):
-        """
-        Recursively compute the lower and upper bounds for each node and
-        return the list of all leaves of the tree below this node.
-        
+        """Recursively retrieves all leaf nodes beneath this node
+            in the decision tree
         Returns:
-            list: A list of all leaf nodes below this node.
+            list: A list of all leaf nodes found beneath this node
         """
-        if self.is_root:
-            self.upper = {0: np.inf}
-            self.lower = {0: -np.inf}
+        if self.is_leaf:
+            return [self]
 
-        if self.left_child:
-            self.left_child.lower = self.lower.copy()
-            self.left_child.upper = self.upper.copy()
-            if self.feature is not None:
-                self.left_child.upper[self.feature] = self.threshold
-
-        if self.right_child:
-            self.right_child.lower = self.lower.copy()
-            self.right_child.upper = self.upper.copy()
-            if self.feature is not None:
-                self.right_child.lower[self.feature] = self.threshold
         leaves = []
         if self.left_child:
             leaves.extend(self.left_child.get_leaves_below())
         if self.right_child:
             leaves.extend(self.right_child.get_leaves_below())
-
-        if self.is_leaf:
-            leaves.append(self)
-
         return leaves
 
     def update_bounds_below(self):
         """
-        Recursively compute and attach the lower and upper bounds dictionaries
-        for each node.
+        Recursively updates bounds for this node and its children.
+        Initializes at root with infinite bounds and adjusts for children
+        based on data.
         """
         if self.is_root:
             self.upper = {0: np.inf}
-            self.lower = {0: -np.inf}
+            self.lower = {0: -1*np.inf}
+        for child in [self.left_child, self.right_child]:
+            if child:
+                child.upper = self.upper.copy()
+                child.lower = self.lower.copy()
 
-        if self.left_child:
-            self.left_child.lower = self.lower.copy()
-            self.left_child.upper = self.upper.copy()
-            if self.feature is not None:
-                self.left_child.upper[self.feature] = self.threshold
-
-        if self.right_child:
-            self.right_child.lower = self.lower.copy()
-            self.right_child.upper = self.upper.copy()
-            if self.feature is not None:
-                self.right_child.lower[self.feature] = self.threshold
+                if child == self.left_child:
+                    child.lower[self.feature] = self.threshold
+                elif child == self.right_child:
+                    child.upper[self.feature] = self.threshold
 
         for child in [self.left_child, self.right_child]:
             if child:
@@ -188,6 +166,7 @@ class Leaf(Node):
         self.value = value
         self.is_leaf = True
         self.depth = depth
+
 
     def max_depth_below(self):
         """
