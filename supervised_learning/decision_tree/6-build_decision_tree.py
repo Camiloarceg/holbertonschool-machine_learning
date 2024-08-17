@@ -182,6 +182,7 @@ class Node:
                                           axis=0)
 
     def pred(self, x):
+        """ pred """
         if x[self.feature] > self.threshold:
             return self.left_child.pred(x)
         else:
@@ -233,6 +234,7 @@ class Leaf(Node):
         pass
 
     def pred(self, x):
+        """ pred """
         return self.value
 
 
