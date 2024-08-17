@@ -180,11 +180,11 @@ class Node:
         self.indicator = lambda x: np.all(np.array([is_large_enough(x),
                                                     is_small_enough(x)]),
                                           axis=0)
-        
-    def pred(self,x) :
-        if x[self.feature]>self.threshold :
+
+    def pred(self, x):
+        if x[self.feature] > self.threshold:
             return self.left_child.pred(x)
-        else :
+        else:
             return self.right_child.pred(x)
 
 
@@ -232,7 +232,7 @@ class Leaf(Node):
         """ update bounds below """
         pass
 
-    def pred(self,x):
+    def pred(self, x):
         return self.value
 
 
