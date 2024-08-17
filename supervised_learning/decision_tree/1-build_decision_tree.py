@@ -56,7 +56,7 @@ class Node:
 
         return max(left_depth, right_depth)
     
-def count_nodes_below(self, only_leaves=False):
+    def count_nodes_below(self, only_leaves=False):
         """
         Counts the number of nodes below this node in the tree.
 
