@@ -97,23 +97,16 @@ class Node:
         return new_text
 
     def __str__(self):
-        """
-        Returns a string representation of the node and its
-         children in the tree.
-
-        Returns:
-            str: The string representation of the node and its subtree.
-        """
-        result = f"[X{self.feature} <= {self.threshold}]"
-
+        """ creates the entire tree string """
+        current = "root" if self.is_root else "-> node"
+        result = \
+            f"{current} [feature={self.feature}, threshold={self.threshold}]\n"
         if self.left_child:
-            left_str = self.left_child_add_prefix(self.left_child.__str__())
-            result += "\n" + left_str
-
+            result += \
+              self.left_child_add_prefix(str(self.left_child).strip())
         if self.right_child:
-            right_str = self.right_child_add_prefix(self.right_child.__str__())
-            result += "\n" + right_str
-
+            result += \
+              self.right_child_add_prefix(str(self.right_child).strip())
         return result
 
 
