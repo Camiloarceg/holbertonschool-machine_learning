@@ -131,7 +131,7 @@ class Leaf(Node):
         """
         return 1
 
-    def get_leaves_below(self) :
+    def get_leaves_below(self):
         return [self]
 
 
@@ -181,5 +181,5 @@ class Decision_Tree:
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
-    def get_leaves(self) :
+    def get_leaves(self):
         return self.root.get_leaves_below()
