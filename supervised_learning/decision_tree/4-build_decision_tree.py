@@ -113,19 +113,35 @@ class Node:
 
     def get_leaves_below(self):
         """
-        Returns the list of all leaf nodes below (and including) this node.
-
+        Recursively compute the lower and upper bounds for each node and
+        return the list of all leaves of the tree below this node.
+        
         Returns:
-            list: A list of leaf nodes in the tree.
+            list: A list of all leaf nodes below this node.
         """
-        if self.is_leaf:
-            return [self]
+        if self.is_root:
+            self.upper = {0: np.inf}
+            self.lower = {0: -np.inf}
 
+        if self.left_child:
+            self.left_child.lower = self.lower.copy()
+            self.left_child.upper = self.upper.copy()
+            if self.feature is not None:
+                self.left_child.upper[self.feature] = self.threshold
+
+        if self.right_child:
+            self.right_child.lower = self.lower.copy()
+            self.right_child.upper = self.upper.copy()
+            if self.feature is not None:
+                self.right_child.lower[self.feature] = self.threshold
         leaves = []
         if self.left_child:
             leaves.extend(self.left_child.get_leaves_below())
         if self.right_child:
             leaves.extend(self.right_child.get_leaves_below())
+
+        if self.is_leaf:
+            leaves.append(self)
 
         return leaves
 
