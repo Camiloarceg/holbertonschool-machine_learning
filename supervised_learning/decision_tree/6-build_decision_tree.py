@@ -290,14 +290,14 @@ class Decision_Tree:
         Update the prediction function for the decision tree.
         """
         self.update_bounds()
-        
+
         leaves = self.get_leaves()
-        
+
         for leaf in leaves:
             leaf.update_indicator()
-        
+
         self.predict = lambda A: np.array([
-            leaf.value 
+            leaf.value
             for leaf in leaves
             if leaf.indicator(A).any()
         ] * len(A))
