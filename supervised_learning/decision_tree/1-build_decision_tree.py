@@ -55,6 +55,31 @@ class Node:
                        if self.right_child else self.depth)
 
         return max(left_depth, right_depth)
+    
+    def count_nodes_below(self, only_leaves=False):
+        """
+        Counts the number of nodes below this node in the tree.
+
+        Args:
+            only_leaves (bool): If True, only leaf nodes are counted.
+                                Otherwise, all nodes are counted.
+
+        Returns:
+            int: The number of nodes below this node.
+        """
+        if only_leaves and self.is_leaf:
+            return 1
+        elif only_leaves and not self.is_leaf:
+            return 0
+
+        count = 1 if not only_leaves else 0
+
+        if self.left_child:
+            count += self.left_child.count_nodes_below(only_leaves=only_leaves)
+        if self.right_child:
+            count += self.right_child.count_nodes_below(only_leaves=only_leaves)
+
+        return count
 
 class Leaf(Node):
     """
@@ -82,6 +107,11 @@ class Leaf(Node):
             int: The depth of this leaf node.
         """
         return self.depth
+
+    def count_nodes_below(self, only_leaves=False) :
+        """ count nodes below
+        """
+        return 1
 
 
 class Decision_Tree:
@@ -125,28 +155,7 @@ class Decision_Tree:
         """
         return self.root.max_depth_below()
     
-    def count_nodes_below(self, only_leaves=False):
+    def count_nodes(self, only_leaves=False) :
+        """ count nodes below
         """
-        Counts the number of nodes below this node in the tree.
-
-        Args:
-            only_leaves (bool): If True, only leaf nodes are counted.
-                                Otherwise, all nodes are counted.
-
-        Returns:
-            int: The number of nodes below this node.
-        """
-        if only_leaves and self.is_leaf:
-            return 1
-        elif only_leaves and not self.is_leaf:
-            return 0
-
-        count = 1 if not only_leaves else 0
-
-        if self.left_child:
-            count += self.left_child.count_nodes_below(only_leaves=only_leaves)
-        if self.right_child:
-            count += self.right_child.count_nodes_below(
-                only_leaves=only_leaves)
-
-        return count    
+        return self.root.count_nodes_below(only_leaves=only_leaves)  
